@@ -2,19 +2,19 @@
 
 Este repositorio contiene la formulación y el cálculo simbólico de los **invariantes de esfuerzos** (totales, hidrostáticos y desviadores) en 3D utilizando la librería `SymPy` de Python.
 
+---
+
 ## 📌 Contenido del Proyecto
 
 El proyecto desarrollado en los Jupyter Notebooks aborda:
 
 * **Deducción del Polinomio Característico:** Planteamiento del problema de valores propios para el tensor de esfuerzos $3 \times 3$.
-
-* **Cálculo de Invariantes Totales (**$I_1, I_2, I_3$**):** Obtención de los coeficientes del polinomio característico mediante determinantes y operaciones matriciales simbólicas.
-
+* **Cálculo de Invariantes Totales ($I_1, I_2, I_3$):** Obtención de los coeficientes del polinomio característico mediante determinantes y operaciones matriciales simbólicas.
 * **Tensor de Esfuerzos Hidrostáticos:** Definición a partir del esfuerzo medio ($\sigma_m = \frac{\sigma_x + \sigma_y + \sigma_z}{3}$) y cálculo de sus invariantes ($\tilde{I}_1, \tilde{I}_2, \tilde{I}_3$).
-
-* **Tensor Desviador de Esfuerzos (**$\mathbf{s}$**):** Descomposición del tensor total y cálculo de los invariantes desviadores ($J_1, J_2, J_3$).
-
+* **Tensor Desviador de Esfuerzos ($\mathbf{s}$):** Descomposición del tensor total y cálculo de los invariantes desviadores ($J_1, J_2, J_3$).
 * **Demostración de Identidades:** Verificación algebraica de relaciones fundamentales como $J_2 = \frac{1}{3}I_1^2 - I_2$.
+
+---
 
 ## 📐 Fundamento Teórico
 
@@ -34,26 +34,22 @@ $$
 
 Donde los invariantes principales son:
 
-* **Primer Invariante (**$I_1$**):**
-  
+#### Primer Invariante ($I_1$):
+$$
+I_1 = \text{tr}(\boldsymbol{\sigma}) = \sigma_x + \sigma_y + \sigma_z
+$$
 
-  $$
-  I_1 = \text{tr}(\boldsymbol{\sigma}) = \sigma_x + \sigma_y + \sigma_z
-  $$
+#### Segundo Invariante ($I_2$):
+$$
+I_2 = \sigma_x \sigma_y + \sigma_x \sigma_z + \sigma_y \sigma_z - \tau_{xy}^2 - \tau_{xz}^2 - \tau_{yz}^2
+$$
 
-* **Segundo Invariante (**$I_2$**):**
-  
+#### Tercer Invariante ($I_3$):
+$$
+I_3 = \det(\boldsymbol{\sigma}) = \sigma_x \sigma_y \sigma_z - \sigma_x \tau_{yz}^2 - \sigma_y \tau_{xz}^2 - \sigma_z \tau_{xy}^2 + 2\tau_{xy}\tau_{xz}\tau_{yz}
+$$
 
-  $$
-  I_2 = \sigma_x \sigma_y + \sigma_x \sigma_z + \sigma_y \sigma_z - \tau_{xy}^2 - \tau_{xz}^2 - \tau_{yz}^2
-  $$
-
-* **Tercer Invariante (**$I_3$**):**
-  
-
-  $$
-  I_3 = \det(\boldsymbol{\sigma}) = \sigma_x \sigma_y \sigma_z - \sigma_x \tau_{yz}^2 - \sigma_y \tau_{xz}^2 - \sigma_z \tau_{xy}^2 + 2\tau_{xy}\tau_{xz}\tau_{yz}
-  $$
+---
 
 ### 2. Componentes Hidrostática y Desviadora
 
@@ -63,40 +59,41 @@ $$
 \boldsymbol{\sigma} = \boldsymbol{\sigma}_m + \mathbf{s}
 $$
 
-* **Esfuerzo Medio (**$\sigma_m$**):**
-  
+#### Esfuerzo Medio ($\sigma_m$):
 
-  $$
-  \sigma_m = \frac{\sigma_x + \sigma_y + \sigma_z}{3} = \frac{I_1}{3}
-  $$
+$$
+\sigma_m = \frac{\sigma_x + \sigma_y + \sigma_z}{3} = \frac{I_1}{3}
+$$
 
-* **Tensor Desviador (**$\mathbf{s}$**):**
-  
+#### Tensor Desviador ($\mathbf{s}$):
 
-  $$
-  \mathbf{s} = \boldsymbol{\sigma} - \sigma_m \mathbf{I} = \begin{bmatrix} \sigma_x - \sigma_m & \tau_{xy} & \tau_{xz} \\ \tau_{xy} & \sigma_y - \sigma_m & \tau_{yz} \\ \tau_{xz} & \tau_{yz} & \sigma_z - \sigma_m \end{bmatrix}
-  $$
+$$
+\mathbf{s} = \boldsymbol{\sigma} - \sigma_m \mathbf{I} = \begin{bmatrix} \sigma_x - \sigma_m & \tau_{xy} & \tau_{xz} \\ \tau_{xy} & \sigma_y - \sigma_m & \tau_{yz} \\ \tau_{xz} & \tau_{yz} & \sigma_z - \sigma_m \end{bmatrix}
+$$
 
-Los invariantes del tensor desviador resultan en:
+#### Invariantes Desviadores:
 
 * $J_1 = \text{tr}(\mathbf{s}) = 0$
-
 * $J_2 = \frac{1}{3} I_1^2 - I_2$
+* $J_3 = \det(\mathbf{s})$
+
+---
 
 ## 🚀 Requisitos e Instalación
 
 Para ejecutar los notebooks es necesario instalar las siguientes dependencias de Python:
 
-```
+```bash
 pip install sympy numpy jupyter
-
 ```
+
+---
 
 ## 💻 Uso del Código
 
 El repositorio incluye una función basada en traza y determinante para calcular automáticamente los invariantes de cualquier tensor de esfuerzos $3 \times 3$:
 
-```
+```python
 import sympy as sp
 
 def invariantes(matrix_de_esfuerzos):
@@ -104,12 +101,11 @@ def invariantes(matrix_de_esfuerzos):
     I2 = (1/2) * (((matrix_de_esfuerzos.trace())**2) - (((matrix_de_esfuerzos)**2).trace()))
     I3 = matrix_de_esfuerzos.det()
     return I1, I2, I3
-
 ```
 
 ### Ejemplo de Cálculo para el Tensor Desviador
 
-```
+```python
 import sympy as sp
 
 # Definición de variables simbólicas
@@ -128,11 +124,11 @@ s = sp.Matrix([
 
 # Cálculo de invariantes desviadores J1, J2, J3
 J1, J2, J3 = sp.nsimplify(invariantes(s))
-
 ```
+
+---
 
 ## 📑 Estructura del Repositorio
 
 * `Invariantes_Esfuerzos_3D.ipynb`: Deducción simbólica del polinomio característico y extracción de los coeficientes de los invariantes $I_1, I_2, I_3$.
-
 * `Esfuerzos_Hidrostaticos_y_Desviadores.ipynb`: Definición del tensor hidrostático, tensor desviador y comprobación simbólica de las expresiones de $J_1, J_2, J_3$.
